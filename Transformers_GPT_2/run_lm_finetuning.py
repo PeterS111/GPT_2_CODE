@@ -418,7 +418,9 @@ def main():
     parser.add_argument("--eval_data_file", default=None, type=str,
                         help="An optional input evaluation data file to evaluate the perplexity on (a text file).")
 
-    parser.add_argument("--model_type", default="bert", type=str,
+#     parser.add_argument("--model_type", default="bert", type=str,
+#                         help="The model architecture to be fine-tuned.")
+    parser.add_argument("--model_type", default="gpt2", type=str,
                         help="The model architecture to be fine-tuned.")
     parser.add_argument("--model_name_or_path", default="bert-base-cased", type=str,
                         help="The model checkpoint for weights initialization.")
