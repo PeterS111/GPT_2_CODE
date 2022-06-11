@@ -70,14 +70,11 @@ man is chased outside and beaten. Twenty years later, Rasputin sees a vision of
 the Virgin Mary, prompting him to become a priest. Rasputin quickly becomes famous,
 with people, even a bishop, begging for his blessing. <eod> </s> <eos>"""
 
-
 def set_seed(args):
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
     if args.n_gpu > 0:
         torch.cuda.manual_seed_all(args.seed)
-
-
 
 def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float('Inf')):
     """ Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
@@ -108,7 +105,6 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float('Inf')
         indices_to_remove = sorted_indices_to_remove.scatter(dim=1, index=sorted_indices, src=sorted_indices_to_remove)
         logits[indices_to_remove] = filter_value
     return logits
-
 
 def sample_sequence(model, length, context, num_samples=1, temperature=1, top_k=0, top_p=0.0, repetition_penalty=1.0,
                     is_xlnet=False, is_xlm_mlm=False, xlm_mask_token=None, xlm_lang=None, device='cpu'):
@@ -227,7 +223,7 @@ def main():
 
         raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
  
-        raw_text = raw_text.replace("$$$$$", " ")
+        raw_text = raw_text.replace("£££££", " ")
         
         if args.model_type in ["transfo-xl", "xlnet"]:
             # Models with memory likes to have a long prompt for short inputs.
