@@ -72,7 +72,7 @@ for i in range(1,11):
     previous_model = "model-" + str(ckpt - steps_increment)
     
     for item in os.listdir("checkpoint/run1"):
-        if previous_model in z:
+        if previous_model in item:
             to_remove  = "checkpoint/run1/" + item
             os.remove(to_remove)
         
