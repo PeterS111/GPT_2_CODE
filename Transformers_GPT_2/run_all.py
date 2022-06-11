@@ -14,7 +14,7 @@ ckpt = 100
 #steps_increment sets the increment of steps between checkpoints that are saved and generated from:
 steps_increment = 100
 
-# sample_length sets the length of the samples generated (maximum is 1024, but if you are using prompt, 
+# sample_length sets the length of the samples generated (maximum is 1024, but if you are using prompt,  
 # you will have to deduct the prompt size from this number):
 sample_length = 100
 
