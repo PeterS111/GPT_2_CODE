@@ -37,16 +37,16 @@ parser.add_argument('--only_train_transformer_layers', default=False, action='st
 parser.add_argument('--optimizer', type=str, default='adam', help='Optimizer. <adam|sgd>.')
 parser.add_argument('--noise', type=float, default=0.0, help='Add noise to input training data to regularize against typos.')
 
-parser.add_argument('--top_k', type=int, default=40, help='K for top-k sampling.')
-parser.add_argument('--top_p', type=float, default=0.0, help='P for top-p sampling. Overrides top_k if set > 0.')
+parser.add_argument('--top_k', type=int, default=50, help='K for top-k sampling.')
+parser.add_argument('--top_p', type=float, default=1.0, help='P for top-p sampling. Overrides top_k if set > 0.')
 
 parser.add_argument('--restore_from', type=str, default='latest', help='Either "latest", "fresh", or a path to a checkpoint file')
 parser.add_argument('--run_name', type=str, default='run1', help='Run id. Name of subdirectory in checkpoint/ and samples/')
 parser.add_argument('--sample_every', metavar='N', type=int, default=1000000, help='Generate samples every N steps')
 parser.add_argument('--sample_length', metavar='TOKENS', type=int, default=1023, help='Sample this many tokens')
 parser.add_argument('--sample_num', metavar='N', type=int, default=1, help='Generate this many samples')
-parser.add_argument('--save_every', metavar='N', type=int, default=1000, help='Write a checkpoint every N steps')
-parser.add_argument('--max_to_keep', metavar='N', type=int, default=1000, help='Max checkpoints to keep')
+parser.add_argument('--save_every', metavar='N', type=int, default=10000, help='Write a checkpoint every N steps')
+parser.add_argument('--max_to_keep', metavar='N', type=int, default=10, help='Max checkpoints to keep')
 parser.add_argument('--max_steps', metavar='N', type=int, default=10000, help='Max steps of training')
 
 parser.add_argument('--val_dataset', metavar='PATH', type=str, default=None, help='Dataset for validation loss, defaults to --dataset.')
