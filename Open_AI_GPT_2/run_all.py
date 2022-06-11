@@ -36,7 +36,7 @@ directory_path = "/content/GPT_2_CODE/Open_AI_GPT_2/"
 # Text prompt for the samples
 prompt = "The eternal sky "
 ####################################
-prompt = prompt.replace(" ", "$$$$$")
+prompt = prompt.replace(" ", "£££££")
 
 ## Dataset for training without validation:
 input_name = "input_data/Shelley.txt"
