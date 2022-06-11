@@ -73,7 +73,7 @@ for i in range (1,11):
             
     # GENERATING THE SAMPLES:
     for s in range(seed_start, seed_end):
-        prompt = prompt.replace(" ", "$$$$$") 
+        prompt = prompt.replace(" ", "£££££") 
 
         os.system('python generate_conditional_samples_to_file.py --model_type gpt2 --temperature 1.0 --top_k 50 --top_p 1.0 --model_name_or_path output/checkpoint-{ckpt} --length {sample_length}  --prompt {prompt} --model_descr {model_descr} --seed {s} --num_samples 1'.format(ckpt=ckpt, sample_length=sample_length, prompt=prompt, model_descr=model_descr,s=s)) 
 
