@@ -38,7 +38,7 @@ input_val = "input_data/Shelley_train.txt"
 
 prompt =  'The eternal sky '
 
-prompt = prompt.replace(" ", "$$$$$")
+prompt = prompt.replace(" ", "£££££")
 
 for i in range (1,11):
 
@@ -66,10 +66,12 @@ for i in range (1,11):
     
         ckpt = ckpt + steps_increment
         last_ckpt = ckpt - steps_increment
+        
         # Fine-tuning without validation dataset:
         os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_name= input_name, ckpt=ckpt))
         # Fine-tuning with validation dataset:
         # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_train=input_train, input_val=input_val, ckpt=ckpt))
+        
         if not os.path.isdir(to_remove):
             os.remove(to_remove)
             
