@@ -45,7 +45,10 @@ for i in range (1,11):
     # FINE-TUNING THE MODELS
     if i == 1:
 
-        os.system('python run_lm_finetuning.py --output_dir=output  --model_type=gpt2 --model_name_or_path={model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --block_size=200 --per_gpu_train_batch_size=1 --save_steps {ckpt} --max_steps {ckpt} --save_total_limit 1 --num_train_epochs=50000 --logging_steps=50'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
+        # Fine-tuning without validation dataset:
+        os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
+        # Fine-tuning with validation dataset:
+        # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --max_steps {ckpt} --save_steps {ckpt}'.format(model_size=model_size, input_train=input_train, input_val=input_val, ckpt=ckpt))
 
         path = 'input_data/output'
         if not os.path.exists(path):
@@ -63,11 +66,10 @@ for i in range (1,11):
     
         ckpt = ckpt + steps_increment
         last_ckpt = ckpt - steps_increment
-
-        os.system('python run_lm_finetuning.py --output_dir=output  --model_type=gpt2 --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_name} --overwrite_output_dir --block_size=200 --per_gpu_train_batch_size=1 --save_steps {ckpt} --max_steps {ckpt} --save_total_limit 100 --num_train_epochs=50000 --logging_steps=50'.format(last_ckpt=last_ckpt, input_name= input_name, ckpt=ckpt))
-        
-    for item in os.listdir("output"):
-        to_remove  = "output/" + item    
+        # Fine-tuning without validation dataset:
+        os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_name= input_name, ckpt=ckpt))
+        # Fine-tuning with validation dataset:
+        # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_train=input_train, input_val=input_val, ckpt=ckpt))
         if not os.path.isdir(to_remove):
             os.remove(to_remove)
             
@@ -75,7 +77,7 @@ for i in range (1,11):
     for s in range(seed_start, seed_end):
         prompt = prompt.replace(" ", "£££££") 
 
-        os.system('python generate_conditional_samples_to_file.py --model_type gpt2 --temperature 1.0 --top_k 50 --top_p 1.0 --model_name_or_path output/checkpoint-{ckpt} --length {sample_length}  --prompt {prompt} --model_descr {model_descr} --seed {s} --num_samples 1'.format(ckpt=ckpt, sample_length=sample_length, prompt=prompt, model_descr=model_descr,s=s)) 
+        os.system('python generate_conditional_samples_to_file.py --temperature 1.0 --top_k 50 --top_p 1.0 --model_name_or_path output/checkpoint-{ckpt} --length {sample_length}  --prompt {prompt} --model_descr {model_descr} --seed {s}'.format(ckpt=ckpt, sample_length=sample_length, prompt=prompt, model_descr=model_descr,s=s)) 
 
     # This code will remove the fine-tuned models that finished generation:
     # (comment out if you want to keep them):
