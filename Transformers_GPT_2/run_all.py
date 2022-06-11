@@ -40,6 +40,8 @@ prompt =  'The eternal sky '
 
 prompt = prompt.replace(" ", "£££££")
 
+validate = False
+
 for i in range (1,11):
 
     # FINE-TUNING THE MODELS
@@ -47,6 +49,8 @@ for i in range (1,11):
 
         # Fine-tuning without validation dataset:
         os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
+        validate = True
+        
         # Fine-tuning with validation dataset:
         # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --max_steps {ckpt} --save_steps {ckpt}'.format(model_size=model_size, input_train=input_train, input_val=input_val, ckpt=ckpt))
 
@@ -54,9 +58,17 @@ for i in range (1,11):
         if not os.path.exists(path):
             os.makedirs(path)
             
-        source_file = "input_data/gpt2_cached_lm_200_Shelley.txt"
-        target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_Shelley.txt"
+        if validate:
 
+            source_file = "input_data/gpt2_cached_lm_200_" +  input_name.split("/")[1]
+#             target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_Shelley.txt"
+            target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_" + input_name.split("/")[1]
+    
+        else:
+            source_file = "input_data/gpt2_cached_lm_200_" +  input_train.split("/")[1]
+#             target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_Shelley.txt"
+            target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_" + input_train.split("/")[1]
+            
         shutil.copy(source_file, target_file)
         print("source_file: ", source_file)
         print("target_file: ", target_file)
