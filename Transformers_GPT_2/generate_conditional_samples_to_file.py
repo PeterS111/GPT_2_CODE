@@ -167,8 +167,8 @@ def main():
                         help="temperature of 0 implies greedy sampling")
     parser.add_argument("--repetition_penalty", type=float, default=1.0,
                         help="primarily useful for CTRL model; in that case, use 1.2")
-    parser.add_argument("--top_k", type=int, default=0)
-    parser.add_argument("--top_p", type=float, default=0.9)
+    parser.add_argument("--top_k", type=int, default=50)
+    parser.add_argument("--top_p", type=float, default=1.0)
     parser.add_argument("--no_cuda", action='store_true',
                         help="Avoid using CUDA when available")
     parser.add_argument('--seed', type=int, default=42,
