@@ -40,49 +40,50 @@ prompt =  'The eternal sky '
 
 prompt = prompt.replace(" ", "£££££")
 
-validate = False
+validate = True
 
 for i in range (1,11):
 
     # FINE-TUNING THE MODELS
     if i == 1:
 
-        # Fine-tuning without validation dataset:
-        os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
-        validate = True
-        
-        # Fine-tuning with validation dataset:
-        # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --max_steps {ckpt} --save_steps {ckpt}'.format(model_size=model_size, input_train=input_train, input_val=input_val, ckpt=ckpt))
-
-        path = 'input_data/output'
-        if not os.path.exists(path):
-            os.makedirs(path)
-            
         if validate:
+            # Fine-tuning with validation dataset:
+            os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --max_steps {ckpt} --save_steps {ckpt}'.format(model_size=model_size, input_train=input_train, input_val=input_val, ckpt=ckpt))
 
-            source_file = "input_data/gpt2_cached_lm_200_" +  input_name.split("/")[1]
-#             target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_Shelley.txt"
-            target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_" + input_name.split("/")[1]
+            path = 'input_data/output'
+            if not os.path.exists(path):
+                os.makedirs(path)
+                
+            source_file = "input_data/gpt2_cached_lm_1024_" +  input_train.split("/")[1]
+            target_file = "input_data/output/checkpoint-" + str(ckpt) + "_gpt2_cached_lm_1024_" + input_train.split("/")[1]
+            
+            shutil.copy(source_file, target_file)
+            print("source_file: ", source_file)
+            print("target_file: ", target_file)
+            
+            source_file = "input_data/gpt2_cached_lm_1024_" +  input_val.split("/")[1]
+            target_file = "input_data/output/checkpoint-" + str(ckpt) + "_gpt2_cached_lm_1024_" + input_val.split("/")[1]
+            
+            shutil.copy(source_file, target_file)
+            print("source_file: ", source_file)
+            print("target_file: ", target_file) 
     
         else:
-            source_file = "input_data/gpt2_cached_lm_200_" +  input_train.split("/")[1]
-#             target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_Shelley.txt"
-            target_file = "input_data/output/checkpoint-100_gpt2_cached_lm_200_" + input_train.split("/")[1]
+            # Fine-tuning without validation dataset
+            os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
             
-        shutil.copy(source_file, target_file)
-        print("source_file: ", source_file)
-        print("target_file: ", target_file)
-        #####################################################################
+            source_file = "input_data/gpt2_cached_lm_1024_" +  input_name.split("/")[1]
+            target_file = "input_data/output/checkpoint-" + str(ckpt) + "_gpt2_cached_lm_1024_" + input_name.split("/")[1]
+            
+            shutil.copy(source_file, target_file)
+            print("source_file: ", source_file)
+            print("target_file: ", target_file)
 
     else:
     
         ckpt = ckpt + steps_increment
         last_ckpt = ckpt - steps_increment
-        
-        # Fine-tuning without validation dataset:
-        os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_name= input_name, ckpt=ckpt))
-        # Fine-tuning with validation dataset:
-        # os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_train} --do_eval --eval_data_file {input_val} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_train=input_train, input_val=input_val, ckpt=ckpt))
         
         
     for item in os.listdir("output"):
@@ -101,9 +102,4 @@ for i in range (1,11):
     # (comment out if you want to keep them):
     if i > 1:
         shutil.rmtree('output/checkpoint-{}'.format(str(last_ckpt)))
-
-
-
-
-
 
