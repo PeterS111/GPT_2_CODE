@@ -245,31 +245,20 @@ def main():
             print(
                 '[{counter} | {time:2.2f}] validation loss = {loss:2.2f}'
                 .format(counter=counter, time=time.time() - start_time, loss=v_val_loss))
-                    
-            #########################################################
-            ##-----------------------------------------------------##        
-            
-            write_str = (
+
+            eval_str = (
                 'step: {counter} validation_loss: {loss:2.2f}'
                 .format(counter=counter, loss=v_val_loss))
                     
-            print(write_str)
-
-            f = open("eval_logs.txt", "a", encoding="utf-8")
-            f.write(write_str + "\n")
+            print(eval_str)
+            f = open("logs_eval.txt", "a", encoding="utf-8")
+            f.write(eval_str + "\n")
             f.close()
-            
-            ##-----------------------------------------------------##
-            #########################################################        
-                    
-                    
-                    
-            
+
 
         def sample_batch():
             return [data_sampler.sample(1024) for _ in range(args.batch_size)]
 
-        ######################### MAIN IS HERE:
         avg_loss = (0.0, 0.0)
         start_time = time.time()
         max_steps=args.max_steps
@@ -299,7 +288,7 @@ def main():
                 avg_loss = (avg_loss[0] * 0.99 + v_loss,
                             avg_loss[1] * 0.99 + 1.0)
                                             
-                write_str = (
+                logs_str = (
                     'step: {counter} time: {time:2.2f} loss: {loss:2.2f} avg: {avg:2.2f}'
                     .format(
                         counter=counter,
@@ -307,16 +296,12 @@ def main():
                         loss=v_loss,
                         avg=avg_loss[0] / avg_loss[1]))
                         
-                print(write_str)
+                print(logs_str)
 
                 f = open("logs.txt", "a", encoding="utf-8")
-                f.write(write_str + "\n")
+                f.write(logs_str + "\n")
                 f.close()
-                
-                ##-----------------------------------------------------##
-                #########################################################
-                
-
+              
                 counter += 1
         except KeyboardInterrupt:
             print('interrupted')
