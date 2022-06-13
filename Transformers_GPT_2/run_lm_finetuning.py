@@ -270,10 +270,8 @@ def train(args, train_dataset, model, tokenizer):
             loss = outputs[0]  # model outputs are always tuple in transformers (see doc)
 
             ## Writing the logs.txt file:
-
             tr_loss = float(str(loss).split(",")[0][7:])
             st = str(global_step)
-
             logs_str = "step: {st} time: {time:2.2f} loss: {tr_loss:2.2f}".format(st=st, tr_loss=tr_loss, time=time.time() - start_time) 
             f = open("logs.txt", "a", encoding="utf-8")
             f.write(logs_str + "\n")
