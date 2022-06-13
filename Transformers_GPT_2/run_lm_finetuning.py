@@ -273,17 +273,25 @@ def train(args, train_dataset, model, tokenizer):
             #########################################################
             ##-----------------------------------------------------##
             
-            dd = str(loss)
-            dl = dd.split(",")
-            ds = dl[0]
-            d_str = ds[7:]
-            d_f = float(d_str)
-            e_str = "step: {st} time: {time:2.2f} loss: {ds:2.2f}".format(st=global_step,  ds=d_f, time=time.time() - start_time) 
-            f = open("logs.txt", "a", encoding="utf-8")
-            f.write(e_str + "\n")
-            f.close()
+#             dd = str(loss)
+#             dl = dd.split(",")
+#             ds = dl[0]
+#             d_str = ds[7:]
+#             d_f = float(d_str)
+#             e_str = "step: {st} time: {time:2.2f} loss: {ds:2.2f}".format(st=global_step,  ds=d_f, time=time.time() - start_time) 
+#             f = open("logs.txt", "a", encoding="utf-8")
+#             f.write(e_str + "\n")
+#             f.close()
             
             ##-----------------------------------------------------##
+            tr_loss = float(str(loss).split(",")[0][7:])
+            st = str(global_step)
+
+            logs_str = "step: {st} time: {time:2.2f} loss: {tr_loss:2.2f}".format(st=st, tr_loss=tr_loss, time=time.time() - start_time) 
+            f = open("logs.txt", "a", encoding="utf-8")
+            f.write(e_str + "\n")
+            f.close()            
+            
             #########################################################
             
 
