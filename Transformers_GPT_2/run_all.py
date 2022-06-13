@@ -56,6 +56,10 @@ for i in range (1,11):
 
         os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
 
+        path = 'input_data/output'
+        if not os.path.exists(path):
+            os.makedirs(path)        
+        
         source_file = source +  input_name.split("/")[1]
         target_file = "input_data/output/checkpoint-" + str(ckpt) + "_cached_lm_1024_" + input_name.split("/")[1]
             
