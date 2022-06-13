@@ -269,21 +269,8 @@ def train(args, train_dataset, model, tokenizer):
             outputs = model(inputs, masked_lm_labels=labels) if args.mlm else model(inputs, labels=labels)
             loss = outputs[0]  # model outputs are always tuple in transformers (see doc)
 
+            ## Writing the logs.txt file:
 
-            #########################################################
-            ##-----------------------------------------------------##
-            
-#             dd = str(loss)
-#             dl = dd.split(",")
-#             ds = dl[0]
-#             d_str = ds[7:]
-#             d_f = float(d_str)
-#             e_str = "step: {st} time: {time:2.2f} loss: {ds:2.2f}".format(st=global_step,  ds=d_f, time=time.time() - start_time) 
-#             f = open("logs.txt", "a", encoding="utf-8")
-#             f.write(e_str + "\n")
-#             f.close()
-            
-            ##-----------------------------------------------------##
             tr_loss = float(str(loss).split(",")[0][7:])
             st = str(global_step)
 
@@ -291,9 +278,6 @@ def train(args, train_dataset, model, tokenizer):
             f = open("logs.txt", "a", encoding="utf-8")
             f.write(logs_str + "\n")
             f.close()            
-            
-            #########################################################
-            
 
             if args.n_gpu > 1:
                 loss = loss.mean()  # mean() to average on multi-gpu parallel training
