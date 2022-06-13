@@ -53,8 +53,6 @@ for i in range (1,11):
 
     # FINE-TUNING THE MODELS
     if i == 1:
-        
-        # Fine-tuning without validation dataset
 
         os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path {model_size} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(model_size=model_size, input_name= input_name, ckpt=ckpt))
 
@@ -71,7 +69,6 @@ for i in range (1,11):
         ckpt = ckpt + steps_increment
         last_ckpt = ckpt - steps_increment
         
-        # Fine-tuning without validation dataset:
         os.system('python run_lm_finetuning.py --output_dir=output --model_name_or_path=output/checkpoint-{last_ckpt} --do_train --train_data_file {input_name} --overwrite_output_dir --save_steps {ckpt} --max_steps {ckpt}'.format(last_ckpt=last_ckpt, input_name= input_name, ckpt=ckpt))
         
         
