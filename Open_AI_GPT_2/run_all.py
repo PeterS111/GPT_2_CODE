@@ -14,7 +14,7 @@ model_size = args.model_size
 
 ## seed_start and seed_end set the range of samples being generated from your models:
 seed_start = 1
-seed_end = 1001
+seed_end = 11
 
 ## ckpt sets the first checkpoint where the model will be saved and the samples will be generated from:
 ckpt = 1000
